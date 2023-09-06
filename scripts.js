@@ -28,6 +28,7 @@ const createArray = (length) => {
     return result
 }
 
+// Function to create data for the calendar
 const createData = () => {
     const current = new Date()
     current.setDate(1) // Set the date to the 1st day of the current month
@@ -35,22 +36,22 @@ const createData = () => {
     const startDay = current.getDay() // Get the day of the week (0-6) for the 1st day
     const daysInMonth = getDaysInMonth(current)
 
-    const weeks = createArray(5)
+    const weeks = createArray(5) // Create an array of 5 weeks for the calendar
     const result = []
 
     for (const weekIndex of weeks) {
         result.push({
-            week: weekIndex + 1,
+            week: weekIndex + 1, // Week number (1-5)
             days: []
         })
 
         for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-            const day = dayIndex - startDay + (weekIndex * 7) + 1
-            const isValid = day > 0 && day <= daysInMonth
+            const day = dayIndex - startDay + (weekIndex * 7) + 1 // Calculate the day of the month
+            const isValid = day > 0 && day <= daysInMonth // Check if the day is within the current month
 
             result[weekIndex].days.push({
-                dayOfWeek: dayIndex, // Changed to start from 0 (Sunday)
-                value: isValid ? day : '',
+                dayOfWeek: dayIndex, // Day of the week (0-6), starting from Sunday
+                value: isValid ? day : '', // Day of the month or an empty string
             })
         }
     }
@@ -58,6 +59,7 @@ const createData = () => {
     return result
 }
 
+// Function to add a table cell to the HTML
 const addCell = (existing, classString, value) => {
     const result = /* html */ `
         ${existing}
@@ -69,6 +71,7 @@ const addCell = (existing, classString, value) => {
     return result
 }
 
+// Function to create the HTML content for the calendar
 const createHtml = (data) => {
     let result = ''
 
@@ -77,9 +80,9 @@ const createHtml = (data) => {
         inner = addCell(inner, 'table__cell table__cell_sidebar', `Week ${week}`)
     
         for (const { dayOfWeek, value } of days) {
-            const isToday = new Date().getDate() === value
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6 // Sunday or Saturday
-            const isAlternate = week % 2 === 0
+            const isToday = new Date().getDate() === value // Check if the day is today
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6 // Check if it's a weekend (Sunday or Saturday)
+            const isAlternate = week % 2 === 0 // Check if it's an alternate week
             
             let classString = 'table__cell'
 
